@@ -22,5 +22,6 @@ from versioning.check_version_view import checkVersion
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", checkVersion),
+    path("ai/", include("oci_ai.urls")),
     path("version/", include("drf_versioning.urls")),
 ]

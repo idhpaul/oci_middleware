@@ -54,6 +54,9 @@ MIDDLEWARE = [
 
 REST_FRAMEWORK = {
     "DEFAULT_VERSIONING_CLASS": "drf_versioning.middleware.AcceptHeaderVersioning",
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ]
 }
 
 DRF_VERSIONING_SETTINGS = {

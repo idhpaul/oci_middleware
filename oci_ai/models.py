@@ -1,37 +1,29 @@
 from django.db import models
 
-# Create your models here.
-
-# before translate model
-#   not to need db model
-
-# after translate model
-#   not to need db model
-
-
-# mix it 'before translate model' and 'after translate model' then commit to db
-class TranslateHistory(models.Model):
+class TargetTranslate(models.Model):
+    apiVersion = models.CharField(max_length=10)
+    user = models.JSONField()
     timestamp = models.DateTimeField()
-    user_id = models.CharField(max_length= 100)
-    user_app_version = models.CharField(max_length= 100)
-    before_language_code = models.CharField(max_length= 8)
-    before_content = models.TextField()
-    after_language_code = models.CharField(max_length= 8)
-    after_content = models.TextField()
+    data = models.JSONField()
 
     class Meta:
-        ordering = ['timestamp']
+        managed = False
 
-# class User(models.Model):
-#     id = models.BigIntegerField(primary_key=True, auto_created=True)
-#     email = models.CharField(max_length=45)
-#     password = models.CharField(max_length=45, db_column='pass')
-#     isPurchace = models.IntegerField()
+class ResultTranslate(models.Model):
+    resultLanguageCode = models.CharField(max_length= 8)
+    resultContent = models.TextField()
 
-#     class Meta:
-#         managed = False
-#         app_label = "service"
-#         db_table = 'test_user'
+    class Meta:
+        managed = False
+
+class TranslateHistory(models.Model):
+    timestamp = models.DateTimeField()
+    userID = models.CharField(max_length= 100)
+    userAppVersion = models.CharField(max_length= 10)
+    beforeLanguageCode = models.CharField(max_length= 8)
+    beforeContent = models.TextField()
+    afterLanguageCode = models.CharField(max_length= 8)
+    afterContent = models.TextField() 
 
 
 # class Snippet(models.Model):
