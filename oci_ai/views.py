@@ -17,10 +17,12 @@ def translate(request:HttpRequest):
 
     targetTranslate.is_valid(raise_exception=True)
 
+    print("start translate")
     result_translate = runLanguageModel(targetTranslate.data['data']['content'],
                         source_language_code=convert_ISO3166_to_ISO639(targetTranslate.data['data']['sourceLanguageCode']),
                         target_language_code=convert_ISO3166_to_ISO639(targetTranslate.data['data']['targetLanguageCode']))
-
+    print("end translate")
+    
     history = TranslateHistorySerializer(data={
         "timestamp" : request.data['timestamp'],
         "userID" : targetTranslate.data['user']['userID'],
