@@ -1,5 +1,14 @@
 from django.db import models
 
+# class CommonInfo(models.Model):
+
+#     apiVersion = models.CharField(max_length=10)
+#     user = models.JSONField()
+#     timestamp = models.DateTimeField()
+
+#     class Meta:
+#         abstract = True
+
 class TargetTranslate(models.Model):
     apiVersion = models.CharField(max_length=10)
     user = models.JSONField()
@@ -25,6 +34,34 @@ class TranslateHistory(models.Model):
     afterLanguageCode = models.CharField(max_length= 8)
     afterContent = models.TextField() 
 
+class TargetTranscribe(models.Model):
+    apiVersion = models.CharField(max_length=10)
+    user = models.JSONField()
+    timestamp = models.DateTimeField()
+    data = models.JSONField()
+
+    class Meta:
+        managed = False
+
+class StateTranscribe(models.Model):
+    apiVersion = models.CharField(max_length=10)
+    user = models.JSONField()
+    timestamp = models.DateTimeField()
+    data = models.JSONField()
+
+    class Meta:
+        managed = False
+
+class Video(models.Model):
+    url = models.TextField()
+    thumbnailUrl = models.TextField()
+    title = models.TextField()
+    like_cnt = models.IntegerField(default=0)
+    dislike_cnt = models.IntegerField(default=0)
+
+    class Meta:
+        managed = True
+        
 
 # class Snippet(models.Model):
 #     created = models.DateTimeField(auto_now_add=True)

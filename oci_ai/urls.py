@@ -3,6 +3,15 @@ from rest_framework.urlpatterns import format_suffix_patterns
 
 from oci_ai import views
 
+video = views.VideoViewSet.as_view({
+    'get': 'list',
+    'post': 'create'
+})
+video_detail = views.VideoViewSet.as_view({
+    'get': 'retrieve',
+    'delete': 'destroy'
+})
+
 urlpatterns = [
     #path('snippets/', views.snippet_list),
     #path('snippets/<int:pk>/', views.snippet_detail),
@@ -10,9 +19,11 @@ urlpatterns = [
     #path('', views.api_root),
 
     # 127.0.0.1/ai/translate (OK)
-    # 127.0.0.1/ai/translate/ (Failed
-    # )
+    # 127.0.0.1/ai/translate/ (Failed)
     path('translate', views.translate, name="Translate"),
+    path('transcribe', views.transcribe, name="Transcribe"),
+    path('video/', video, name="Video"),
+    path('video/<int:pk>/', video_detail, name='VdieoDetail'),
 
     
     # url 제한을 시킬 수 있음(오류 방지) -> ex) 2000년 이후만 받도록 

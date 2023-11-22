@@ -1,6 +1,8 @@
 from rest_framework import serializers
+from rest_framework.views import APIView
+from rest_framework.serializers import ModelSerializer
 
-from oci_ai.models import TargetTranslate, ResultTranslate, TranslateHistory
+from oci_ai.models import StateTranscribe, TargetTranscribe, TargetTranslate, ResultTranslate, TranslateHistory, Video
 
 class TargetTranslateSerializer(serializers.ModelSerializer):
 
@@ -20,3 +22,25 @@ class TranslateHistorySerializer(serializers.ModelSerializer):
         model = TranslateHistory
         fields = '__all__'
 
+class TargetTranscribeSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = TargetTranscribe
+        fields = '__all__'
+
+class StateTranscribeSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = StateTranscribe
+        fields = '__all__'
+
+
+class VideoViewGetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Video
+        fields = "__all__"
+
+class VideoViewPostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Video
+        fields = ("id", "url", "thumbnailUrl", "title")
