@@ -5,9 +5,9 @@ from rest_framework.decorators import api_view
 from rest_framework import generics
 from rest_framework import status, viewsets
 from rest_framework.response import Response
-from oci_ai.models import Video
+from oci_ai.models import Video, VideoCaption
 
-from oci_ai.serialize import StateTranscribeSerializer, TargetTranscribeSerializer, TargetTranslateSerializer, TranslateHistorySerializer, VideoViewGetSerializer, VideoViewPostSerializer
+from oci_ai.serialize import StateTranscribeSerializer, TargetTranscribeSerializer, TargetTranslateSerializer, TranslateHistorySerializer, VideoCaptionViewSerializer, VideoViewGetSerializer, VideoViewPostSerializer
 from oci_ai.oci_speech.pretrained_model_transcription import getTrnascriptionJob, runSpeechModel
 from oci_ai.oci_language.pretrained_model_translate import runLanguageModel
 
@@ -104,6 +104,40 @@ class VideoViewSet(viewsets.ModelViewSet):
 
     def list(self, request): 
         serializer = self.get_serializer(self.queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def retrieve(self, request, pk=None):
+        video = self.get_object()
+        serializer = self.get_serializer(video)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
+    def destroy(self, request, pk=None):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def perform_destroy(self, instance):
+        instance.delete()
+
+class VideoCaptionViewSet(viewsets.ModelViewSet):
+
+    serializer_class = VideoCaptionViewSerializer
+
+    def create(self, request, pk, *args, **kwargs):
+        serializer = self.get_serializer(data={
+            "languageCode" : request.data['data']['languageCode'],
+            "caption" : request.data['data']['caption'],
+            "video" : pk
+        })
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def list(self, request, pk): 
+        queryset = VideoCaption.objects.filter(video=pk)
+        serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     def retrieve(self, request, pk=None):

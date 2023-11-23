@@ -2,7 +2,7 @@ from rest_framework import serializers
 from rest_framework.views import APIView
 from rest_framework.serializers import ModelSerializer
 
-from oci_ai.models import StateTranscribe, TargetTranscribe, TargetTranslate, ResultTranslate, TranslateHistory, Video
+from oci_ai.models import StateTranscribe, TargetTranscribe, TargetTranslate, ResultTranslate, TranslateHistory, Video, VideoCaption
 
 class TargetTranslateSerializer(serializers.ModelSerializer):
 
@@ -36,6 +36,9 @@ class StateTranscribeSerializer(serializers.ModelSerializer):
 
 
 class VideoViewGetSerializer(serializers.ModelSerializer):
+
+    captions = serializers.StringRelatedField(many=True)
+
     class Meta:
         model = Video
         fields = "__all__"
@@ -44,3 +47,8 @@ class VideoViewPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Video
         fields = ("id", "url", "thumbnailUrl", "title")
+
+class VideoCaptionViewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VideoCaption
+        fields = "__all__"
