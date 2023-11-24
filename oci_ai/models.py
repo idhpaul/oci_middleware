@@ -1,18 +1,15 @@
 from django.db import models
 
-# class CommonInfo(models.Model):
+class CommonInfo(models.Model):
 
-#     apiVersion = models.CharField(max_length=10)
-#     user = models.JSONField()
-#     timestamp = models.DateTimeField()
-
-#     class Meta:
-#         abstract = True
-
-class TargetTranslate(models.Model):
     apiVersion = models.CharField(max_length=10)
     user = models.JSONField()
     timestamp = models.DateTimeField()
+
+    class Meta:
+        abstract = True
+
+class TargetTranslate(CommonInfo):
     data = models.JSONField()
 
     class Meta:
@@ -34,19 +31,15 @@ class TranslateHistory(models.Model):
     afterLanguageCode = models.CharField(max_length= 8)
     afterContent = models.TextField() 
 
-class TargetTranscribe(models.Model):
-    apiVersion = models.CharField(max_length=10)
-    user = models.JSONField()
-    timestamp = models.DateTimeField()
+class TargetTranscribe(CommonInfo):
+
     data = models.JSONField()
 
     class Meta:
         managed = False
 
-class StateTranscribe(models.Model):
-    apiVersion = models.CharField(max_length=10)
-    user = models.JSONField()
-    timestamp = models.DateTimeField()
+class StateTranscribe(CommonInfo):
+
     data = models.JSONField()
 
     class Meta:
